@@ -1,10 +1,10 @@
 
 const matrix = [
-    ['>', '-', '-', '-', 'A', '-', '-', '-', '+'],
+    ['>', '-', '-', '-', 'A', '-', '@', '-', '+'],
     ['', '', '', '', '', '', '', '', '|'],
-    ['s', '-', 'B', '-', '+', '', '', '', 'C'],
-    ['', '', '', '', '|', '', '', '', '|'],
-    ['', '', '', '', '+', '-', '-', '-', '+']
+    ['+', '-', 'U', '-', '+', '', '', '', 'C'],
+    ['|', '', '', '', '|', '', '', '', '|'],
+    ['s', '', '', '', '+', '-', '-', '-', '+']
 ];
 
 let start = true, end = false;
@@ -15,6 +15,8 @@ let goingLeft = false;
 let goingUp = false;
 let goingDown = false;
 
+var last_i;
+var last_j;
 
 
 for(let i = 0; i < matrix.length; i++){
@@ -40,10 +42,11 @@ for(let i = 0; i < matrix.length; i++){
             else if(matrix[i][j] === 's'){
                 end = true;
                 path+=matrix[i][j];
+                last_i = i;
+                last_j = j;
                 break;
             }
-            else if(matrix[i][j] === '-'){
-
+            else if(matrix[i][j] === '-' ||  matrix[i][j] === '@'){
                 path+=matrix[i][j];
             }
             else if(matrix[i][j] === '|'){
@@ -107,10 +110,28 @@ for(let i = 0; i < matrix.length; i++){
     }
     else if(goingLeft){
         for(let j = rowLength - 2; j >= 0; j--){
+            console.log("i: " + i + " j: " + j);
+            if(i <=0 )
+                break;
+
+            if(j === 0 && ((matrix[i][j] === '+') || (/[A-Z]/.test(matrix[i][j])))){
+                path+=matrix[i][j];
+                if(goingUp){
+                    i--;
+                    j++;
+                }
+                else if(goingDown){
+                    i++;
+                    j++;
+                }
+            }
 
             if(matrix[i][j] === 's'){
                 end = true;
                 path+=matrix[i][j];
+                last_i = i;
+                last_j = j;
+                break;
             }
             else if(/[A-Z]/.test(matrix[i][j])){
                 path+=matrix[i][j];
@@ -130,18 +151,19 @@ for(let i = 0; i < matrix.length; i++){
                 path+=matrix[i][j];
                 break;
             }
-            else if(matrix[i][j] === '-'){
+            else if(matrix[i][j] === '-' || matrix[i][j] === '@'){
                 path+=matrix[i][j];
             }
             else if(matrix[i][j] === '|'){
                 path+=matrix[i][j];
                 if(goingUp)
                     i--;
+                if(goingDown)
+                    i++;
                 j++;
             }
             else if(matrix[i][j] === '+'){
                 path+=matrix[i][j];
-
 
                 if(goingUp){
                     if(goingRight) {
@@ -184,6 +206,13 @@ for(let i = 0; i < matrix.length; i++){
         break;
     }
 }
+
+console.log("goingUp: " + goingUp);
+console.log("goingDown: " + goingDown);
+console.log("goingLeft: " + goingLeft);
+console.log("goingRight: " + goingRight);
+console.log("last_i: " + last_i);
+console.log("last_j: " + last_j);
 
 console.log("Path: " + path);
 console.log("Letters: " + letters);
