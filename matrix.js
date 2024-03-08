@@ -15,9 +15,6 @@ let goingLeft = false;
 let goingUp = false;
 let goingDown = false;
 
-var last_i;
-var last_j;
-
 
 for(let i = 0; i < matrix.length; i++){
     let rowLength = matrix[i].length;
@@ -42,8 +39,6 @@ for(let i = 0; i < matrix.length; i++){
             else if(matrix[i][j] === 's'){
                 end = true;
                 path+=matrix[i][j];
-                last_i = i;
-                last_j = j;
                 break;
             }
             else if(matrix[i][j] === '-' ||  matrix[i][j] === '@'){
@@ -110,7 +105,6 @@ for(let i = 0; i < matrix.length; i++){
     }
     else if(goingLeft){
         for(let j = rowLength - 2; j >= 0; j--){
-            console.log("i: " + i + " j: " + j);
             if(i <=0 )
                 break;
 
@@ -129,8 +123,6 @@ for(let i = 0; i < matrix.length; i++){
             if(matrix[i][j] === 's'){
                 end = true;
                 path+=matrix[i][j];
-                last_i = i;
-                last_j = j;
                 break;
             }
             else if(/[A-Z]/.test(matrix[i][j])){
@@ -206,13 +198,6 @@ for(let i = 0; i < matrix.length; i++){
         break;
     }
 }
-
-console.log("goingUp: " + goingUp);
-console.log("goingDown: " + goingDown);
-console.log("goingLeft: " + goingLeft);
-console.log("goingRight: " + goingRight);
-console.log("last_i: " + last_i);
-console.log("last_j: " + last_j);
 
 console.log("Path: " + path);
 console.log("Letters: " + letters);
